@@ -60,7 +60,7 @@ resources:
         AttributeDefinitions:
           - AttributeName: playerId
             AttributeType: N
-          - AttributeName: playerId
+          - AttributeName: score
             AttributeType: N
           - AttributeName: gameId
             AttributeType: N
@@ -89,7 +89,7 @@ resources:
         AttributeDefinitions:
           - AttributeName: teamId
             AttributeType: N
-          - AttributeName: playerId
+          - AttributeName: score
             AttributeType: N
           - AttributeName: gameId
             AttributeType: N
