@@ -117,7 +117,7 @@ resources:
         TableName: Ants-Smashing-smashedAnts
         AttributeDefinitions:
           - AttributeName: antId
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: antId
             KeyType: HASH
