@@ -31,14 +31,14 @@ functions:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetPlayersScoresHandler
     events:
       - http:
-          path: scores/players/games/{gameId}
+          path: scores/games/{gameId}/players
           method: get
 
   getTeamsScoresJava:
       handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetTeamsScoresHandler
       events:
         - http:
-            path: scores/teams/games/{gameId}
+            path: scores/games/{gameId}/teams
             method: get
 
 
