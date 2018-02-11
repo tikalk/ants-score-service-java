@@ -53,12 +53,6 @@ functions:
 
 resources:
   Resources:
-    hitTrialsStream:
-      Type: 'AWS::Kinesis::Stream'
-      Properties:
-        Name: Ants-Smashing-HitTrials
-        RetentionPeriodHours: 168
-        ShardCount: 1
     playersCoresTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -130,3 +124,9 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+    hitTrialsStream:
+      Type: 'AWS::Kinesis::Stream'
+      Properties:
+        Name: Ants-Smashing-HitTrials
+        RetentionPeriodHours: 168
+        ShardCount: 1
