@@ -48,7 +48,7 @@ public class PlayerScoresService {
         return playersScores.toString();
     }
 
-    public String getTeamsScores(String gameId) throws JsonProcessingException {
+    public String getTeamsScores(String gameId)  {
         List<String> teamsScores = teamsScoresRepository.getTeamsScoresByGameId(Integer.valueOf(gameId));
         return teamsScores.toString();
     }

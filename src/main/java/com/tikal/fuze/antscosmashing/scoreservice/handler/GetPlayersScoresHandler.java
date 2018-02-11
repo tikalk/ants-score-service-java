@@ -6,31 +6,27 @@ import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.Map;
 
-public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class GetPlayersScoresHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-	private static final Logger logger = LogManager.getLogger(Handler.class);
+	private static final Logger logger = LogManager.getLogger(GetPlayersScoresHandler.class);
 
 	private PlayerScoresService playerScoresService;
 
-	public Handler() {
+	public GetPlayersScoresHandler() {
 		if (playerScoresService == null)
 			playerScoresService = new PlayerScoresService();
 	}
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
-		logger.info("received: " + input);
-//		Response responseBody = new Response("Go Serverless v1.x! Your function executed successfully!", input);
+		logger.debug("received: " + input);
 		Map<String,?> pathParameters = (Map<String, Object>) input.get("pathParameters");
-//		logger.debug("pathParameters class :{}",pathParameters.getClass());
 		String scores = playerScoresService.getPlayersScores(pathParameters.get("gameId").toString());
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
 				.setObjectBody(scores)
-//				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & serverless"))
 				.build();
 	}
 }

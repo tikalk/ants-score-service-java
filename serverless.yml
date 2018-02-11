@@ -21,58 +21,25 @@ provider:
   name: aws
   runtime: java8
   region: us-west-2
-  environment:
-#    DYNAMODB_TABLE_PLAYERS_SCORE: Ants-Smashing-PlayersScore
-#    DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE: gameId_score_idx
-#    DYNAMODB_TABLE_TEAMS_SCORE: Ants-Smashing-TeamsScore
-#    DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE: gameId_score_idx
   role: arn:aws:iam::329054710135:role/lambda-kinesis-ants
-#  iamRoleStatements:
-#    - Effect: Allow
-#      Action:
-#        - dynamodb:Query
-#      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_PLAYERS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE}"
-#    - Effect: Allow
-#      Action:
-#        - dynamodb:Query
-#      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_TEAMS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE}"
 
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
 package:
   artifact: build/distributions/ants-score-service-java-1.0.zip
 
 functions:
   getPlayersScoresJava:
-    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.Handler
+    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetPlayersScoresHandler
     events:
       - http:
-          path: players-scores-by-game-java/{gameId}
+          path: scores/players/games/{gameId}
           method: get
+
+  getTeamsScoresJava:
+      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetTeamsScoresHandler
+      events:
+        - http:
+            path: scores/teams/games/{gameId}
+            method: get
 
 
 #    The following are a few example events you can configure
