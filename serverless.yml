@@ -22,19 +22,20 @@ provider:
   runtime: java8
   region: us-west-2
   environment:
-    DYNAMODB_TABLE_PLAYERS_SCORE: Ants-Smashing-PlayersScore
-    DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE: gameId_score_idx
-    DYNAMODB_TABLE_TEAMS_SCORE: Ants-Smashing-TeamsScore
-    DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE: gameId_score_idx
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_PLAYERS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE}"
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_TEAMS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE}"
+#    DYNAMODB_TABLE_PLAYERS_SCORE: Ants-Smashing-PlayersScore
+#    DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE: gameId_score_idx
+#    DYNAMODB_TABLE_TEAMS_SCORE: Ants-Smashing-TeamsScore
+#    DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE: gameId_score_idx
+  role: arn:aws:iam::329054710135:role/lambda-kinesis-ants
+#  iamRoleStatements:
+#    - Effect: Allow
+#      Action:
+#        - dynamodb:Query
+#      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_PLAYERS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE}"
+#    - Effect: Allow
+#      Action:
+#        - dynamodb:Query
+#      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_TEAMS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE}"
 
 
 # you can overwrite defaults here
