@@ -21,6 +21,11 @@ provider:
   name: aws
   runtime: java8
   region: us-west-2
+  environment:
+    DYNAMODB_TABLE_PLAYERS_SCORE: Ants-Smashing-PlayersScore
+    DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE: gameId_score_idx
+    DYNAMODB_TABLE_TEAMS_SCORE: Ants-Smashing-TeamsScore
+    DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE: gameId_score_idx
   iamRoleStatements:
     - Effect: Allow
       Action:
