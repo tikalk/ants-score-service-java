@@ -41,6 +41,13 @@ functions:
             path: scores/games/{gameId}/teams
             method: get
 
+  postHitTrialJava:
+        handler: com.tikal.fuze.antscosmashing.scoreservice.handler.PostHitTrialHandler
+        events:
+          - http:
+              path: hit-trials
+              method: post
+
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

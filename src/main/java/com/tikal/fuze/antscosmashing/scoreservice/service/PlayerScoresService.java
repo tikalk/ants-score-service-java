@@ -53,26 +53,32 @@ public class PlayerScoresService {
         return teamsScores.toString();
     }
 
-    public void savePlayerScore(String hitTrialStr) throws IOException {
-        logger.debug("Handling hitTrialStr: {}", hitTrialStr);
-        setEnvVariables();
-        JsonNode hitTrial = mapper.readTree(hitTrialStr);
+    public void savePlayerScore(String hitTrialStr) {
+        try {
+            logger.debug("Handling hitTrialStr: {}", hitTrialStr);
+            setEnvVariables();
+            JsonNode hitTrial = null;
+            hitTrial = mapper.readTree(hitTrialStr);
 
-        String type = hitTrial.get("type").textValue();
-        String antId = null;
-        if (!type.equals("miss"))
-            antId = hitTrial.get("antId").textValue();
-        int playerId = hitTrial.get("playerId").intValue();
-        int teamId = hitTrial.get("teamId").intValue();
-        int gameId = hitTrial.get("gameId").intValue();
+            String type = hitTrial.get("type").textValue();
+            String antId = null;
+            if (!type.equals("miss"))
+                antId = hitTrial.get("antId").textValue();
+            int playerId = hitTrial.get("playerId").intValue();
+            int teamId = hitTrial.get("teamId").intValue();
+            int gameId = hitTrial.get("gameId").intValue();
 
 
-        if (type.equals("miss"))
-            handleMiss(hitTrialStr);
-        else if (type.equals("hit"))
-            handleHitOrFirstHit(playerId, antId, gameId, teamId, false);
-        if (type.equals("selfHit"))
-            handleHitOrFirstHit(playerId, antId, gameId, teamId, true);
+            if (type.equals("miss"))
+                handleMiss(hitTrialStr);
+            else if (type.equals("hit"))
+                handleHitOrFirstHit(playerId, antId, gameId, teamId, false);
+            if (type.equals("selfHit"))
+                handleHitOrFirstHit(playerId, antId, gameId, teamId, true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void setEnvVariables() {
