@@ -47,6 +47,11 @@ functions:
           - http:
               path: hit-trials
               method: post
+        environment:
+            HIT: 1
+            FIRST_HIT: 3
+            SELF_HIT: -1
+            FIRST_SELF_HIT: -3
 
 
 #    The following are a few example events you can configure
