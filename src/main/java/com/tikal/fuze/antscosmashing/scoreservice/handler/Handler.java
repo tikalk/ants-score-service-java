@@ -24,9 +24,9 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 		logger.info("received: " + input);
 //		Response responseBody = new Response("Go Serverless v1.x! Your function executed successfully!", input);
-		Object pathParameters = input.get("pathParameters");
-		logger.debug("pathParameters class :{}",pathParameters.getClass());
-		String scores = playerScoresService.getPlayersScores("6");
+		Map<String,?> pathParameters = (Map<String, Object>) input.get("pathParameters");
+//		logger.debug("pathParameters class :{}",pathParameters.getClass());
+		String scores = playerScoresService.getPlayersScores(pathParameters.get("gameId").toString());
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
 				.setObjectBody(scores)
