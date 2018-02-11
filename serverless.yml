@@ -53,7 +53,7 @@ functions:
 
 resources:
   Resources:
-    usersTable:
+    playersCoresTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: Ants-Smashing-PlayersScore
@@ -82,7 +82,7 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 5
               WriteCapacityUnits: 5
-    usersTable:
+    teamsCoresTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: Ants-Smashing-TeamsScore
@@ -111,7 +111,7 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 5
               WriteCapacityUnits: 5
-    usersTable:
+    smashedAntsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: Ants-Smashing-smashedAnts
