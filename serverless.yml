@@ -53,6 +53,19 @@ functions:
             SELF_HIT: -1
             FIRST_SELF_HIT: -3
 
+  kinesisHitTrialEventsJava:
+        handler: com.tikal.fuze.antscosmashing.scoreservice.handler.KinesisHitTrialEventsHandler
+        events:
+          - stream:
+              arn: arn:aws:kinesis:us-west-2:329054710135:stream/Ants-Smashing-HitTrials
+              batchSize: 100
+              startingPosition: LATEST
+        environment:
+            HIT: 1
+            FIRST_HIT: 3
+            SELF_HIT: -1
+            FIRST_SELF_HIT: -3
+
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
