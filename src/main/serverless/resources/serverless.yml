@@ -1,13 +1,9 @@
-service: ants-score-service-java
+service: ants-score-service-resources
 
 provider:
   name: aws
-  runtime: java8
   region: us-west-2
   role: arn:aws:iam::329054710135:role/lambda-kinesis-ants
-
-package:
-  artifact: build/distributions/ants-score-service-java-1.0.zip
 
 resources:
   Resources:
@@ -88,43 +84,3 @@ resources:
         Name: Ants-Smashing-HitTrials
         RetentionPeriodHours: 168
         ShardCount: 1
-
-functions:
-  getPlayersScoresJava:
-    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetPlayersScoresHandler
-    events:
-      - http:
-          path: scores/games/{gameId}/players
-          method: get
-
-  getTeamsScoresJava:
-      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetTeamsScoresHandler
-      events:
-        - http:
-            path: scores/games/{gameId}/teams
-            method: get
-
-  postHitTrialJava:
-        handler: com.tikal.fuze.antscosmashing.scoreservice.handler.PostHitTrialHandler
-        events:
-          - http:
-              path: hit-trials
-              method: post
-        environment:
-            HIT: 1
-            FIRST_HIT: 3
-            SELF_HIT: -1
-            FIRST_SELF_HIT: -3
-
-  kinesisHitTrialEventsJava:
-        handler: com.tikal.fuze.antscosmashing.scoreservice.handler.KinesisHitTrialEventsHandler
-        events:
-          - stream:
-              arn: arn:aws:kinesis:us-west-2:329054710135:stream/Ants-Smashing-HitTrials
-              batchSize: 100
-              startingPosition: LATEST
-        environment:
-            HIT: 1
-            FIRST_HIT: 3
-            SELF_HIT: -1
-            FIRST_SELF_HIT: -3

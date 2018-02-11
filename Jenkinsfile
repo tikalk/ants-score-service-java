@@ -11,7 +11,10 @@ node {
         	sh './gradlew clean build'
         }
       	stage ('Deploy') {
-      	    sh "serverless deploy"
+      	    sh '''
+      	        cd src/main/serverless/functions/
+      	        serverless deploy
+      	    '''
       	}
     } catch (err) {
         currentBuild.result = 'FAILED'
