@@ -21,6 +21,16 @@ provider:
   name: aws
   runtime: java8
   region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_PLAYERS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_PLAYERS_SCORE_GAME_ID_SCORE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_TEAMS_SCORE}/index/${self:provider.environment.DYNAMODB_INDEX_TEAMS_SCORE_GAME_ID_SCORE}"
+
 
 # you can overwrite defaults here
 #  stage: dev
