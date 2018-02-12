@@ -64,7 +64,7 @@ public class TeamsScoresRepository {
     public List<String> getTeamsScoresByGameId(int gameId)  {
         List<String> teamsScores = getTeamScoresItemsStream(gameId)
                 .map(i ->
-                        mapper.createObjectNode().put("id", i.getInt("teamId")).put("score", i.getInt("score"))
+                        mapper.createObjectNode().put("teamId", i.getInt("teamId")).put("score", i.getInt("score"))
                 ).map(on -> on.toString()).collect(toList());
         logger.debug("Teams for gameId {} are {}",gameId,teamsScores);
         return teamsScores;
