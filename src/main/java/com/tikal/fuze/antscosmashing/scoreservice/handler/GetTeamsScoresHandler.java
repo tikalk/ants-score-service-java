@@ -6,6 +6,7 @@ import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
 
 public class GetTeamsScoresHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
@@ -23,7 +24,7 @@ public class GetTeamsScoresHandler implements RequestHandler<Map<String, Object>
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 		logger.debug("received: " + input);
 		Map<String,?> pathParameters = (Map<String, Object>) input.get("pathParameters");
-		String scores = playerScoresService.getTeamsScores(pathParameters.get("gameId").toString());
+		List<String> scores  = playerScoresService.getTeamsScores(pathParameters.get("gameId").toString());
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
 				.setObjectBody(scores)

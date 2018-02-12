@@ -1,6 +1,5 @@
 package com.tikal.fuze.antscosmashing.scoreservice.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tikal.fuze.antscosmashing.scoreservice.repositories.PlayersScoresRepository;
@@ -43,14 +42,12 @@ public class PlayerScoresService {
         smashedAntsRepository = new SmashedAntsRepository();
     }
 
-    public String getPlayersScores(String gameId)  {
-        List<String> playersScores = playersScoresRepository.getPlayersScoresByGameId(Integer.valueOf(gameId));
-        return playersScores.toString();
+    public List<String> getPlayersScores(String gameId)  {
+        return playersScoresRepository.getPlayersScoresByGameId(Integer.valueOf(gameId));
     }
 
-    public String getTeamsScores(String gameId)  {
-        List<String> teamsScores = teamsScoresRepository.getTeamsScoresByGameId(Integer.valueOf(gameId));
-        return teamsScores.toString();
+    public List<String> getTeamsScores(String gameId)  {
+        return teamsScoresRepository.getTeamsScoresByGameId(Integer.valueOf(gameId));
     }
 
     public void savePlayerScore(String hitTrialStr) {
