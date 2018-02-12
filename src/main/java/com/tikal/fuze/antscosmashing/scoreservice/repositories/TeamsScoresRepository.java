@@ -44,7 +44,7 @@ public class TeamsScoresRepository {
                 .withPrimaryKey("teamId",teamId)
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
-                                .addUpdate(N("score").set(if_not_exists("score", score)))
+                                .addUpdate(N("score").set(if_not_exists("score", 0)))
                                 .addUpdate(N("gameId").set(gameId))
                                 .buildForUpdate())
         );
