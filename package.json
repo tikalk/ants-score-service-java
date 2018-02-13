@@ -1,0 +1,23 @@
+{
+  "name": "ants-score-service-java",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tikalk/ants-score-service-java.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tikalk/ants-score-service-java/issues"
+  },
+  "homepage": "https://github.com/tikalk/ants-score-service-java#readme",
+  "devDependencies": {
+    "serverless-domain-manager": "^2.3.0"
+  }
+}
