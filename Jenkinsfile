@@ -13,7 +13,7 @@ node {
       	stage ('Deploy') {
       	    sh '''
       	        cd src/main/serverless/functions/
-      	        serverless deploy
+      	        serverless deploy --force
       	    '''
       	}
     } catch (err) {
