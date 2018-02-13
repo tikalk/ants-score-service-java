@@ -42,7 +42,7 @@ plugins:
 custom:
   customDomain:
     domainName: "fuze.tikal.io"
-    basePath: 'hit-trials'
+    basePath: 'hitTrials'
     stage: ${self:provider.stage}
     createRoute53Record: true
     endpointType: 'regional'
