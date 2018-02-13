@@ -11,10 +11,9 @@ node {
         	sh './gradlew clean build'
         }
       	stage ('Deploy') {
-      	    sh '''
-      	        cd src/main/serverless/functions/
-      	        serverless deploy
-      	    '''
+      	    sh "npm init -y"
+            sh "npm install serverless-domain-manager --save-dev"
+            sh "serverless deploy"
       	}
     } catch (err) {
         currentBuild.result = 'FAILED'

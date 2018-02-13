@@ -7,14 +7,14 @@ provider:
   role: arn:aws:iam::329054710135:role/lambda-kinesis-ants
 
 package:
-  artifact: ../../../../build/distributions/ants-score-service-java-1.0.zip
+  artifact: ./build/distributions/ants-score-service-java-1.0.zip
 
 functions:
   postHitTrialJava:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler
     events:
       - http:
-          path: hit-trials
+          path: ''
           method: post
     environment:
       HIT: 1
@@ -34,6 +34,18 @@ functions:
       FIRST_HIT: 3
       SELF_HIT: -1
       FIRST_SELF_HIT: -3
+
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: "fuze.tikal.io"
+    basePath: 'hit-trials'
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    endpointType: 'regional'
 
 
 
