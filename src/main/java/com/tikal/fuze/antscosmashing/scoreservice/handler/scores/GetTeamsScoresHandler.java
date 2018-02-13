@@ -1,20 +1,22 @@
-package com.tikal.fuze.antscosmashing.scoreservice.handler;
+package com.tikal.fuze.antscosmashing.scoreservice.handler.scores;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.tikal.fuze.antscosmashing.scoreservice.handler.response.ApiGatewayResponse;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
 
-public class PostHitTrialHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class GetTeamsScoresHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-	private static final Logger logger = LogManager.getLogger(PostHitTrialHandler.class);
+	private static final Logger logger = LogManager.getLogger(GetTeamsScoresHandler.class);
 
 	private PlayerScoresService playerScoresService;
 
-	public PostHitTrialHandler() {
+	public GetTeamsScoresHandler() {
 		if (playerScoresService == null)
 			playerScoresService = new PlayerScoresService();
 	}
@@ -22,10 +24,11 @@ public class PostHitTrialHandler implements RequestHandler<Map<String, Object>, 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 		logger.debug("received: " + input);
-		String body = (String) input.get("body");
-		playerScoresService.savePlayerScore(body);
+		Map<String,?> pathParameters = (Map<String, Object>) input.get("pathParameters");
+		List<String> scores  = playerScoresService.getTeamsScores(pathParameters.get("gameId").toString());
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
+				.setObjectBody(scores)
 				.build();
 	}
 }

@@ -1,4 +1,4 @@
-package com.tikal.fuze.antscosmashing.scoreservice.handler;
+package com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -13,6 +13,8 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     private static final Logger logger = LogManager.getLogger(KinesisHitTrialEventsHandler.class);
 
     private PlayerScoresService playerScoresService;
+
+
 
     public KinesisHitTrialEventsHandler() {
         if (playerScoresService == null)

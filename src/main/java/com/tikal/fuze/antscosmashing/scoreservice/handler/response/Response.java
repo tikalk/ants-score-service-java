@@ -1,4 +1,4 @@
-package com.tikal.fuze.antscosmashing.scoreservice.handler;
+package com.tikal.fuze.antscosmashing.scoreservice.handler.response;
 
 import java.util.Map;
 

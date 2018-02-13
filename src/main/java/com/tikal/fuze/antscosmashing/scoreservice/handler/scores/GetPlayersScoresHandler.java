@@ -1,7 +1,8 @@
-package com.tikal.fuze.antscosmashing.scoreservice.handler;
+package com.tikal.fuze.antscosmashing.scoreservice.handler.scores;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.tikal.fuze.antscosmashing.scoreservice.handler.response.ApiGatewayResponse;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

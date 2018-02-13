@@ -1,4 +1,4 @@
-package com.tikal.fuze.antscosmashing.scoreservice.handler;
+package com.tikal.fuze.antscosmashing.scoreservice.handler.response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

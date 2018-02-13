@@ -11,7 +11,7 @@ package:
 
 functions:
   postHitTrialJava:
-    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.PostHitTrialHandler
+    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler
     events:
       - http:
           path: hit-trials
@@ -23,7 +23,7 @@ functions:
       FIRST_SELF_HIT: -3
 
   kinesisHitTrialEventsJava:
-    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.KinesisHitTrialEventsHandler
+    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.KinesisHitTrialEventsHandler
     events:
       - stream:
           arn: arn:aws:kinesis:us-west-2:329054710135:stream/Ants-Smashing-HitTrials
@@ -42,14 +42,14 @@ functions:
 
 
 #  getPlayersScoresJava:
-#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetPlayersScoresHandler
+#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetPlayersScoresHandler
 #    events:
 #      - http:
 #          path: scores/games/{gameId}/players
 #          method: get
 #
 #  getTeamsScoresJava:
-#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.GetTeamsScoresHandler
+#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetTeamsScoresHandler
 #    events:
 #      - http:
 #          path: scores/games/{gameId}/teams
