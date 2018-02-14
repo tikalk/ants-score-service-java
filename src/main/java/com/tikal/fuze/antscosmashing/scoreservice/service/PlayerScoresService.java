@@ -65,13 +65,15 @@ public class PlayerScoresService {
             int teamId = hitTrial.get("teamId").intValue();
             int gameId = hitTrial.get("gameId").intValue();
 
-
+            int score=0;
             if (type.equals("miss"))
-                handleMiss(hitTrialStr);
+                score = calcMissScore(hitTrialStr);
             else if (type.equals("hit"))
-                handleHitOrFirstHit(playerId, antId, gameId, teamId, false);
-            if (type.equals("selfHit"))
-                handleHitOrFirstHit(playerId, antId, gameId, teamId, true);
+                score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, false);
+            else if (type.equals("selfHit"))
+                score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, true);
+            playersScoresRepository.put(playerId ,gameId,score);
+            teamsScoresRepository.put(teamId ,gameId,score);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -85,6 +87,7 @@ public class PlayerScoresService {
             return;
         }
 
+        hitScore = Integer.valueOf(getenv("MISS"));
         hitScore = Integer.valueOf(getenv("HIT"));
         firstHitScore = Integer.valueOf(getenv("FIRST_HIT"));
         selfHitScore =  Integer.valueOf(getenv("SELF_HIT"));
@@ -92,11 +95,12 @@ public class PlayerScoresService {
         logger.debug("hitScore:{}, firstHitScore:{}, selfHitScore:{}, firstSelfHitScore:{}",hitScore,firstHitScore,selfHitScore,selfHitScore);
     }
 
-    private void handleMiss(String hitTrialStr) {
+    private int calcMissScore(String hitTrialStr) {
         logger.debug("Ignoring the miss HitTrial:",hitTrialStr);
+        return 0;
     }
 
-    private void handleHitOrFirstHit(int playerId , String antId, int gameId,int teamId,boolean self) {
+    private int calcHitOrFirstHitScore(int playerId , String antId, int gameId, int teamId, boolean self) {
         int score;
         if (isSmashedNow(antId)) {
             smashedAntsRepository.put(antId, playerId);
@@ -106,9 +110,7 @@ public class PlayerScoresService {
             score = (self) ? selfHitScore : hitScore;
             logger.debug("hit event:{}" , playerId);
         }
-        playersScoresRepository.put(playerId ,gameId,score);
-        teamsScoresRepository.put(teamId ,gameId,score);
-        logger.debug("Updated team id {} to a new score " , teamId);
+        return score;
     }
 
 
