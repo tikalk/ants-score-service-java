@@ -18,7 +18,7 @@ functions:
           method: post
     environment:
       HIT: 1
-      MISS: -1
+      MISS: 0
       FIRST_HIT: 3
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
@@ -32,7 +32,7 @@ functions:
           startingPosition: LATEST
     environment:
       HIT: 1
-      MISS: -1
+      MISS: 0
       FIRST_HIT: 3
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
