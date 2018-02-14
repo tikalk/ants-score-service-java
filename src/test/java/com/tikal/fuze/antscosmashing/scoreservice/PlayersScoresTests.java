@@ -27,7 +27,7 @@ public class PlayersScoresTests {
 
     private ObjectMapper om = new ObjectMapper();
 
-    private PlayerScoresService playerScoresService = new PlayerScoresService(2,4,-4,-2);
+    private PlayerScoresService playerScoresService = new PlayerScoresService(2,4,-4,-2,-1);
 
 
 

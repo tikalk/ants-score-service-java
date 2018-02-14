@@ -23,13 +23,15 @@ public class PlayerScoresService {
     private TeamsScoresRepository teamsScoresRepository;
     private SmashedAntsRepository smashedAntsRepository;
 
+    private int missScore;
     private int hitScore;
     private int firstHitScore;
     private int selfHitScore;
     private int firstSelfHitScore;
 
-    public PlayerScoresService(int hitScore, int firstHitScore, int selfHitScore, int firstSelfHitScore) {
+    public PlayerScoresService(int hitScore, int firstHitScore, int selfHitScore, int firstSelfHitScore,int missScore) {
         this();
+        this.missScore=missScore;
         this.hitScore = hitScore;
         this.firstHitScore = firstHitScore;
         this.selfHitScore = selfHitScore;
@@ -87,7 +89,7 @@ public class PlayerScoresService {
             return;
         }
 
-        hitScore = Integer.valueOf(getenv("MISS"));
+        missScore = Integer.valueOf(getenv("MISS"));
         hitScore = Integer.valueOf(getenv("HIT"));
         firstHitScore = Integer.valueOf(getenv("FIRST_HIT"));
         selfHitScore =  Integer.valueOf(getenv("SELF_HIT"));
@@ -96,8 +98,8 @@ public class PlayerScoresService {
     }
 
     private int calcMissScore(String hitTrialStr) {
-        logger.debug("Ignoring the miss HitTrial:",hitTrialStr);
-        return 0;
+        logger.debug("return miss score of {} for the input {}",missScore,hitTrialStr);
+        return missScore;
     }
 
     private int calcHitOrFirstHitScore(int playerId , String antId, int gameId, int teamId, boolean self) {
