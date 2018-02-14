@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-aws kinesis create-stream --stream-name Ants-Smashing-HitTrials --shard-count 1
+aws kinesis create-stream --stream-name Ants-Smashing-HitTrials --shard-count 2
+
+echo "Sleeping for 30 sec, let the strem to be created, before we create the mapping..."
+sleep 30
 
 export func_config=`aws lambda get-function --function-name ants-score-service-java-dev-processHitTrialKinesisEvent`
 export event_uuid=`aws lambda list-event-source-mappings --function-name ants-score-service-java-dev-processHitTrialKinesisEvent | jq .EventSourceMappings[0].UUID | sed s/\"//g`
