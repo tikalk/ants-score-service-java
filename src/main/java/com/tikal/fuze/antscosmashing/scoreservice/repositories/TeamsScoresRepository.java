@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.N;
+import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.S;
 import static com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder.if_not_exists;
 import static java.util.stream.Collectors.toList;
 
@@ -38,7 +39,7 @@ public class TeamsScoresRepository {
     }
 
 
-    public void put(int teamId,int gameId, int score){
+    public void put(int teamId, int gameId, String teamName, int score){
         //put a new record with score 0 in case it doesn't exist
         getTable().updateItem(new UpdateItemSpec()
                 .withPrimaryKey("teamId",teamId)
@@ -46,6 +47,7 @@ public class TeamsScoresRepository {
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(if_not_exists("score", 0)))
                                 .addUpdate(N("gameId").set(gameId))
+                                .addUpdate(S("teamName").set(teamName))
                                 .buildForUpdate())
         );
 

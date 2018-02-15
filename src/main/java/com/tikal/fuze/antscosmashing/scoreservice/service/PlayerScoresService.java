@@ -66,6 +66,8 @@ public class PlayerScoresService {
             int playerId = hitTrial.get("playerId").intValue();
             int teamId = hitTrial.get("teamId").intValue();
             int gameId = hitTrial.get("gameId").intValue();
+            String playerName = hitTrial.get("playerName").textValue();
+            String teamName = hitTrial.get("teamName").textValue();
 
             int score=0;
             if (type.equals("miss"))
@@ -74,8 +76,8 @@ public class PlayerScoresService {
                 score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, false);
             else if (type.equals("selfHit"))
                 score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, true);
-            playersScoresRepository.put(playerId ,gameId,score);
-            teamsScoresRepository.put(teamId ,gameId,score);
+            playersScoresRepository.put(playerId ,gameId,playerName,score);
+            teamsScoresRepository.put(teamId ,gameId,teamName,score);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
