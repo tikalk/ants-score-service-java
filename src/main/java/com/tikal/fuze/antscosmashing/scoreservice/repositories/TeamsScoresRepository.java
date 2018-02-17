@@ -39,7 +39,7 @@ public class TeamsScoresRepository {
     }
 
 
-    public void put(int teamId, int gameId, String teamName, int score){
+    public void put(int teamId, int gameId, String teamName,int antSpeciesId,String antSpeciesName, int score){
         //put a new record with score 0 in case it doesn't exist
         getTable().updateItem(new UpdateItemSpec()
                 .withPrimaryKey("teamId",teamId)
@@ -48,6 +48,8 @@ public class TeamsScoresRepository {
                                 .addUpdate(N("score").set(if_not_exists("score", 0)))
                                 .addUpdate(N("gameId").set(gameId))
                                 .addUpdate(S("teamName").set(teamName))
+                                .addUpdate(N("antSpeciesId").set(antSpeciesId))
+                                .addUpdate(S("antSpeciesName").set(antSpeciesName))
                                 .buildForUpdate())
         );
 

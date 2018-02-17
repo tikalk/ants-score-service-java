@@ -56,7 +56,7 @@ public class PlayerScoresService {
         try {
             logger.debug("Handling hitTrialStr: {}", hitTrialStr);
             setEnvVariables();
-            JsonNode hitTrial = null;
+            JsonNode hitTrial;
             hitTrial = mapper.readTree(hitTrialStr);
 
             String type = hitTrial.get("type").textValue();
@@ -64,20 +64,25 @@ public class PlayerScoresService {
             if (!type.equals("miss"))
                 antId = hitTrial.get("antId").textValue();
             int playerId = hitTrial.get("playerId").intValue();
-            int teamId = hitTrial.get("teamId").intValue();
             int gameId = hitTrial.get("gameId").intValue();
-            String playerName = hitTrial.get("playerName").textValue();
-            String teamName = hitTrial.get("teamName").textValue();
+
 
             int score=0;
             if (type.equals("miss"))
                 score = calcMissScore(hitTrialStr);
             else if (type.equals("hit"))
-                score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, false);
+                score = calcHitOrFirstHitScore(playerId, antId,  false);
             else if (type.equals("selfHit"))
-                score = calcHitOrFirstHitScore(playerId, antId, gameId, teamId, true);
+                score = calcHitOrFirstHitScore(playerId, antId,  true);
+
+            String playerName = hitTrial.get("playerName").textValue();
             playersScoresRepository.put(playerId ,gameId,playerName,score);
-            teamsScoresRepository.put(teamId ,gameId,teamName,score);
+
+            int teamId = hitTrial.get("teamId").intValue();
+            String teamName = hitTrial.get("teamName").textValue();
+            int antSpeciesId = hitTrial.get("antSpeciesId").intValue();
+            String antSpeciesName = hitTrial.get("antSpeciesName").textValue();
+            teamsScoresRepository.put(teamId ,gameId,teamName,antSpeciesId,antSpeciesName,score);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -104,7 +109,7 @@ public class PlayerScoresService {
         return missScore;
     }
 
-    private int calcHitOrFirstHitScore(int playerId , String antId, int gameId, int teamId, boolean self) {
+    private int calcHitOrFirstHitScore(int playerId , String antId, boolean self) {
         int score;
         if (isSmashedNow(antId)) {
             smashedAntsRepository.put(antId, playerId);
