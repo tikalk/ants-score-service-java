@@ -41,7 +41,7 @@ functions:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.games.PostGameHandler
     events:
       - http:
-          path: ''
+          path: games
           method: post
 
 
