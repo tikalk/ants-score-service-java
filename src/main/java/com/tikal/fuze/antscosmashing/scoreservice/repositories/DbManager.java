@@ -21,6 +21,7 @@ public class DbManager {
     private String db_region;
     private String teamsScoreTableName;
 
+    private String gamesTableName;
 
     private DbManager() {
         loadTableNames();
@@ -45,6 +46,10 @@ public class DbManager {
         return gameIdScoreIndexName;
     }
 
+    public String getGamesTableName() {
+        return gamesTableName;
+    }
+
     public DynamoDB getDynamoDb() {
         return dynamoDb;
     }
@@ -59,6 +64,7 @@ public class DbManager {
             smashedAntsTableName = prop.getProperty("smashedAnts_tableName");
             playersScoreTableName = prop.getProperty("playersScore_tableName");
             teamsScoreTableName = prop.getProperty("teamsScore_tableName");
+            gamesTableName = prop.getProperty("games_tableName");
             gameIdScoreIndexName = prop.getProperty("gameIdScoreIndexName");
             db_region = prop.getProperty("db_region");
         } catch (IOException e) {
@@ -76,4 +82,6 @@ public class DbManager {
     public String getTeamsScoreTableName() {
         return teamsScoreTableName;
     }
+
+
 }
