@@ -38,7 +38,7 @@ functions:
       FIRST_SELF_HIT: -3
 
   getLatestGame:
-      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.GetLatestGameHandler
+      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetLatestGameHandler
       events:
         - http:
             path: 'games/latest'

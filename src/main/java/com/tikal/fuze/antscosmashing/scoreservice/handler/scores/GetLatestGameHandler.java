@@ -24,7 +24,7 @@ public class GetLatestGameHandler implements RequestHandler<Map<String, Object>,
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
-		logger.debug("received: " + input);
+		logger.debug("startHandleRequest... ");
 		Integer latestGame = teamsScoresRepository.getLatestGame();
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
