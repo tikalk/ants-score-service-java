@@ -14,7 +14,7 @@ functions:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler
     events:
       - http:
-          path: 'hitTrials'
+          path: ''
           method: post
     environment:
       HIT: 1
@@ -51,7 +51,7 @@ plugins:
 custom:
   customDomain:
     domainName: "fuze.tikal.io"
-    basePath: ''
+    basePath: 'hitTrials'
     stage: ${self:provider.stage}
     createRoute53Record: true
     endpointType: 'regional'
