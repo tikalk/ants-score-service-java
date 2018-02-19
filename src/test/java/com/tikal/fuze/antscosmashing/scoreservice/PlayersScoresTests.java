@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.KinesisHitTrialEventsHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.response.ApiGatewayResponse;
+import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetLatestGameHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetPlayersScoresHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetTeamsScoresHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
@@ -30,6 +31,11 @@ public class PlayersScoresTests {
     private PlayerScoresService playerScoresService = new PlayerScoresService(2,4,-4,-2,-1);
 
 
+    @Test
+    public void testGetLatestGame() throws IOException {
+        ApiGatewayResponse apiGatewayResponse = new GetLatestGameHandler().handleRequest(null, null);
+        logger.debug(apiGatewayResponse.getBody());
+    }
 
     @Test
     public void testPostHitTrialWebApi() throws IOException {

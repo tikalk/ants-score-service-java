@@ -14,7 +14,7 @@ functions:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler
     events:
       - http:
-          path: ''
+          path: 'hitTrials'
           method: post
     environment:
       HIT: 1
@@ -37,6 +37,13 @@ functions:
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
 
+  getLatestGame:
+      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.GetLatestGameHandler
+      events:
+        - http:
+            path: 'games/latest'
+            method: get
+
 
 plugins:
   - serverless-domain-manager
@@ -44,7 +51,7 @@ plugins:
 custom:
   customDomain:
     domainName: "fuze.tikal.io"
-    basePath: 'hitTrials'
+    basePath: ''
     stage: ${self:provider.stage}
     createRoute53Record: true
     endpointType: 'regional'
