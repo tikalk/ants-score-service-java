@@ -99,6 +99,8 @@ public class TeamsScoresRepository {
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
+
+
     public Integer getLatestGame(){
         LocalDateTime now = LocalDateTime.now();
         int date = Integer.valueOf(BASIC_ISO_DATE.format(now));
