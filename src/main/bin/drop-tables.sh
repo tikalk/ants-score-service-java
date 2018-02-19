@@ -3,4 +3,3 @@
 aws dynamodb delete-table --table-name Ants-Smashing-PlayersScore
 aws dynamodb delete-table --table-name Ants-Smashing-TeamsScore
 aws dynamodb delete-table --table-name Ants-Smashing-smashedAnts
-#aws dynamodb delete-table --table-name Ants-Games

@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -27,6 +30,7 @@ public class TeamsScoresRepository {
     private DynamoDB dynamoDb;
     private String tableName;
 
+
     public TeamsScoresRepository(){
         dynamoDb=DbManager.getInstance().getDynamoDb();
         tableName =DbManager.getInstance().getTeamsScoreTableName();
@@ -39,7 +43,7 @@ public class TeamsScoresRepository {
     }
 
 
-    public void put(int teamId, int gameId, String teamName,int antSpeciesId,String antSpeciesName, int score){
+    public void put(int teamId, int gameId, String teamName,int antSpeciesId,String antSpeciesName, int score,int date, int time){
         //put a new record with score 0 in case it doesn't exist
         getTable().updateItem(new UpdateItemSpec()
                 .withPrimaryKey("teamId",teamId)
@@ -50,6 +54,8 @@ public class TeamsScoresRepository {
                                 .addUpdate(S("teamName").set(teamName))
                                 .addUpdate(N("antSpeciesId").set(antSpeciesId))
                                 .addUpdate(S("antSpeciesName").set(antSpeciesName))
+                                .addUpdate(N("date").set(date))
+                                .addUpdate(N("time").set(time))
                                 .buildForUpdate())
         );
 
@@ -58,7 +64,10 @@ public class TeamsScoresRepository {
                 .withPrimaryKey("teamId",teamId)
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
-                                .addUpdate(N("score").set(N("score").plus(score))).buildForUpdate())
+                                .addUpdate(N("score").set(N("score").plus(score)))
+                                .addUpdate(N("date").set(date))
+                                .addUpdate(N("time").set(time))
+                                .buildForUpdate())
         );
 
 

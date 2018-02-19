@@ -82,7 +82,9 @@ public class PlayerScoresService {
             String teamName = hitTrial.get("teamName").textValue();
             int antSpeciesId = hitTrial.get("antSpeciesId").intValue();
             String antSpeciesName = hitTrial.get("antSpeciesName").textValue();
-            teamsScoresRepository.put(teamId ,gameId,teamName,antSpeciesId,antSpeciesName,score);
+            int date = hitTrial.get("date").intValue();
+            int time = hitTrial.get("time").intValue();
+            teamsScoresRepository.put(teamId ,gameId,teamName,antSpeciesId,antSpeciesName,score,date,time);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

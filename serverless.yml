@@ -37,13 +37,6 @@ functions:
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
 
-  postGame:
-    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.games.PostGameHandler
-    events:
-      - http:
-          path: games/{gameId}
-          method: post
-
 
 plugins:
   - serverless-domain-manager

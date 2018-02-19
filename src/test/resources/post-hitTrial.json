@@ -31,6 +31,6 @@
     "httpMethod": "PUT",
     "apiId": "s48uy8tvpi"
   },
-  "body": "{\"type\": \"hit\",\"antId\": \"11122\",\"playerId\": 9,\"gameId\":6,\"userId\":5,\"teamId\":7,\"playerName\": \"yanai\",\"teamName\": \"Java\"}",
+  "body": "{\"type\": \"hit\",\"antId\": \"11122\",\"playerId\": 9,\"gameId\":6,\"userId\":5,\"teamId\":7,\"playerName\": \"yanai\",\"teamName\": \"Java\",\"antSpeciesId\":1,\"antSpeciesName\": \"RedFire\"}",
   "isBase64Encoded": false
 }
