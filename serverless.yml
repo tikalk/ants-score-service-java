@@ -43,6 +43,7 @@ functions:
         - http:
             path: 'games/latest'
             method: get
+            cors: true
 
 
 plugins:
