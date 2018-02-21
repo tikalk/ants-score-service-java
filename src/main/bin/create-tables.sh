@@ -3,7 +3,8 @@
 aws dynamodb create-table --table-name Ants-Smashing-PlayersScore \
 --attribute-definitions AttributeName=playerId,AttributeType=N AttributeName=score,AttributeType=N AttributeName=gameId,AttributeType=N \
 --key-schema AttributeName=playerId,KeyType=HASH --provisioned-throughput ReadCapacityUnits=10,WriteCapacityUnits=10 \
---global-secondary-indexes 'IndexName=gameId_score_idx,KeySchema=[{AttributeName=gameId,KeyType=HASH},{AttributeName=score,KeyType=RANGE}],Projection={ProjectionType=ALL},ProvisionedThroughput={ReadCapacityUnits=10,WriteCapacityUnits=10}'
+--global-secondary-indexes 'IndexName=gameId_score_idx,KeySchema=[{AttributeName=gameId,KeyType=HASH},{AttributeName=score,KeyType=RANGE}],Projection={ProjectionType=ALL},ProvisionedThroughput={ReadCapacityUnits=10,WriteCapacityUnits=10}' \
+--stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE
 
 
 aws dynamodb create-table --table-name Ants-Smashing-TeamsScore \
