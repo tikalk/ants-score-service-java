@@ -13,7 +13,8 @@ aws dynamodb create-table --table-name Ants-Smashing-TeamsScore \
 --global-secondary-indexes '[
        { "IndexName":"gameId_score_idx", "KeySchema":[ { "AttributeName":"gameId", "KeyType":"HASH" }, { "AttributeName":"score", "KeyType":"RANGE" } ], "Projection":{ "ProjectionType":"ALL" }, "ProvisionedThroughput":{ "ReadCapacityUnits":10, "WriteCapacityUnits":10 } },
        { "IndexName":"date_time_idx", "KeySchema":[ { "AttributeName":"updateDate", "KeyType":"HASH" }, { "AttributeName":"updateTime", "KeyType":"RANGE" } ], "Projection":{ "ProjectionType":"ALL" }, "ProvisionedThroughput":{ "ReadCapacityUnits":10, "WriteCapacityUnits":10 } }
-]'
+]' \
+--stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE
 
 aws dynamodb create-table --table-name Ants-Smashing-smashedAnts \
 --attribute-definitions AttributeName=antId,AttributeType=S \
