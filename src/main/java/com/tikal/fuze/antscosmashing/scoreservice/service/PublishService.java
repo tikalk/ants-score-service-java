@@ -3,22 +3,20 @@ package com.tikal.fuze.antscosmashing.scoreservice.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pusher.rest.Pusher;
+import com.tikal.fuze.antscosmashing.scoreservice.repositories.DbManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import static java.util.Collections.singletonMap;
 
 public class PublishService {
     private static final Logger logger = LogManager.getLogger(PublishService.class);
-    private Pusher pusher;
+    private Pusher pusher = createPusher();
     private ObjectMapper mapper= new ObjectMapper();
-
-    public PublishService(){
-        pusher = new Pusher("480094", "ee30a7dbb762fb045133", "979cc7a705030939aa0f");
-        pusher.setEncrypted(true);
-    }
 
 
     public void publishTeamScore(int teamId, int gameId, String teamName, int antSpeciesId, String antSpeciesName, int score) {
@@ -46,6 +44,21 @@ public class PublishService {
             pusher.trigger("scores", "playerScore", singletonMap("message", objectNode.toString()));
         }catch (Exception e){
             logger.error(e);
+        }
+    }
+
+    private Pusher createPusher() {
+        try {
+            Properties prop = new Properties();
+            InputStream inputStream = PublishService.class.getClassLoader().getResourceAsStream("config.properties");
+            prop.load(inputStream);
+
+            pusher = new Pusher(prop.getProperty("pusher_appId"),  prop.getProperty("pusher_key"), prop.getProperty("pusher_secret"));
+            pusher.setEncrypted(true);
+            return pusher;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
