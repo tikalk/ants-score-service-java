@@ -23,6 +23,8 @@ public class PlayerScoresService {
     private TeamsScoresRepository teamsScoresRepository;
     private SmashedAntsRepository smashedAntsRepository;
 
+    private PublishService publishService;
+
     private int missScore;
     private int hitScore;
     private int firstHitScore;
@@ -42,6 +44,7 @@ public class PlayerScoresService {
         playersScoresRepository = new PlayersScoresRepository();
         teamsScoresRepository = new TeamsScoresRepository();
         smashedAntsRepository = new SmashedAntsRepository();
+        publishService = new PublishService();
     }
 
     public List<String> getPlayersScores(String gameId)  {
@@ -85,6 +88,9 @@ public class PlayerScoresService {
             int date = hitTrial.get("date").intValue();
             int time = hitTrial.get("time").intValue();
             teamsScoresRepository.put(teamId ,gameId,teamName,antSpeciesId,antSpeciesName,score,date,time);
+
+            publishService.publishPlayerScore(playerId ,gameId,playerName,score);
+            publishService.publishTeamScore(teamId ,gameId,teamName,antSpeciesId,antSpeciesName,score);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

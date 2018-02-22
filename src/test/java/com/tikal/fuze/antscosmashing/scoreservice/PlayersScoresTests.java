@@ -9,6 +9,7 @@ import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetLatestGameHa
 import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetPlayersScoresHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetTeamsScoresHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
+import com.tikal.fuze.antscosmashing.scoreservice.service.PublishService;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
