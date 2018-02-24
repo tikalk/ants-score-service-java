@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tikal.fuze.antscosmashing.scoreservice.domain.HitTrial;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,9 +26,6 @@ import static java.util.stream.Collectors.toList;
 
 public class TeamsScoresRepository {
     private static final Logger logger = LogManager.getLogger(TeamsScoresRepository.class);
-    private final String gameIdScoreIndexName;
-
-    private ObjectMapper mapper = new ObjectMapper();
 
     private DynamoDB dynamoDb;
     private String tableName;
@@ -36,7 +34,6 @@ public class TeamsScoresRepository {
     public TeamsScoresRepository(){
         dynamoDb=DbManager.getInstance().getDynamoDb();
         tableName =DbManager.getInstance().getTeamsScoreTableName();
-        gameIdScoreIndexName = DbManager.getInstance().getGameIdScoreIndexName();
     }
 
 
@@ -45,58 +42,34 @@ public class TeamsScoresRepository {
     }
 
 
-    public void put(int teamId, int gameId, String teamName,int antSpeciesId,String antSpeciesName, int score,int date, int time){
+    public void put(HitTrial hitTrial, int score){
         //put a new record with score 0 in case it doesn't exist
         getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("teamId",teamId)
+                .withPrimaryKey("teamId",hitTrial.getTeamId())
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(if_not_exists("score", 0)))
-                                .addUpdate(N("gameId").set(gameId))
-                                .addUpdate(S("teamName").set(teamName))
-                                .addUpdate(N("antSpeciesId").set(antSpeciesId))
-                                .addUpdate(S("antSpeciesName").set(antSpeciesName))
-                                .addUpdate(N("updateDate").set(date))
-                                .addUpdate(N("updateTime").set(time))
+                                .addUpdate(N("gameId").set(hitTrial.getGameId()))
+                                .addUpdate(S("teamName").set(hitTrial.getTeamName()))
+                                .addUpdate(N("antSpeciesId").set(hitTrial.getAntSpeciesId()))
+                                .addUpdate(S("antSpeciesName").set(hitTrial.getAntSpeciesName()))
+                                .addUpdate(N("updateDate").set(hitTrial.getDate()))
+                                .addUpdate(N("updateTime").set(hitTrial.getTime()))
                                 .buildForUpdate())
         );
 
         //Add the new score
         getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("teamId",teamId)
+                .withPrimaryKey("teamId",hitTrial.getTeamId())
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(N("score").plus(score)))
-                                .addUpdate(N("updateDate").set(date))
-                                .addUpdate(N("updateTime").set(time))
+                                .addUpdate(N("updateDate").set(hitTrial.getDate()))
+                                .addUpdate(N("updateTime").set(hitTrial.getTime()))
                                 .buildForUpdate())
         );
 
 
-    }
-
-
-    public List<String> getTeamsScoresByGameId(int gameId)  {
-        List<String> teamsScores = getTeamScoresItemsStream(gameId)
-                .map(i ->
-                        mapper.createObjectNode().put("teamId", i.getInt("teamId")).put("score", i.getInt("score"))
-                ).map(on -> on.toString()).collect(toList());
-        logger.debug("Teams for gameId {} are {}",gameId,teamsScores);
-        return teamsScores;
-    }
-
-
-
-    private Stream<Item> getTeamScoresItemsStream(int gameId) {
-        QuerySpec spec = new QuerySpec()
-                .withKeyConditionExpression("gameId = :gameId")
-                .withValueMap(new ValueMap()
-                        .withInt(":gameId", gameId))
-                .withScanIndexForward(false);
-
-        ItemCollection<QueryOutcome> items = getTable().getIndex(gameIdScoreIndexName).query(spec);
-        Iterable<Item> iterable = () -> items.iterator();
-        return StreamSupport.stream(iterable.spliterator(), false);
     }
 
 

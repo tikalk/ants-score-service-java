@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+import static com.tikal.fuze.antscosmashing.scoreservice.domain.HitTrial.createHitTrial;
+
 public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEvent, Void> {
     private static final Logger logger = LogManager.getLogger(KinesisHitTrialEventsHandler.class);
 
@@ -51,6 +53,6 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     public void handleKinesisData(String kinesisData) throws IOException {
         logger.debug("Got kinesis data {}", kinesisData);
 //        playerScoresService.savePlayerScore(trimDoubleQuotes(kinesisData.replaceAll("\\\\", "")));
-        playerScoresService.savePlayerScore(kinesisData);
+        playerScoresService.savePlayerScore(createHitTrial(kinesisData));
     }
 }

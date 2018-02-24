@@ -3,6 +3,7 @@ package com.tikal.fuze.antscosmashing.scoreservice.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pusher.rest.Pusher;
+import com.tikal.fuze.antscosmashing.scoreservice.domain.HitTrial;
 import com.tikal.fuze.antscosmashing.scoreservice.repositories.DbManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,13 +20,13 @@ public class PublishService {
     private ObjectMapper mapper= new ObjectMapper();
 
 
-    public void publishTeamScore(int teamId, int gameId, String teamName, int antSpeciesId, String antSpeciesName, int score) {
+    public void publishTeamScore(HitTrial hitTrial, int score) {
         ObjectNode objectNode = mapper.createObjectNode()
-                .put("teamId", teamId)
-                .put("gameId", gameId)
-                .put("teamName", teamName)
-                .put("antSpeciesId", antSpeciesId)
-                .put("antSpeciesName", antSpeciesName)
+                .put("teamId", hitTrial.getTeamId())
+                .put("gameId", hitTrial.getGameId())
+                .put("teamName", hitTrial.getTeamName())
+                .put("antSpeciesId", hitTrial.getAntSpeciesId())
+                .put("antSpeciesName", hitTrial.getAntSpeciesName())
                 .put("score", score);
         try {
             pusher.trigger("scores", "teamScore", singletonMap("message", objectNode.toString()));
@@ -34,11 +35,11 @@ public class PublishService {
         }
     }
 
-    public void publishPlayerScore(int playerId, int gameId, String playerName, int score) {
+    public void publishPlayerScore(HitTrial hitTrial, int score) {
         ObjectNode objectNode = mapper.createObjectNode()
-                .put("playerId", playerId)
-                .put("gameId", gameId)
-                .put("playerName", playerName)
+                .put("playerId", hitTrial.getPlayerId())
+                .put("gameId", hitTrial.getGameId())
+                .put("playerName", hitTrial.getPlayerName())
                 .put("score", score);
         try{
             pusher.trigger("scores", "playerScore", singletonMap("message", objectNode.toString()));

@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.xspec.ExpressionSpecBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tikal.fuze.antscosmashing.scoreservice.domain.HitTrial;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,9 +21,6 @@ import static java.util.stream.Collectors.toList;
 
 public class PlayersScoresRepository {
     private static final Logger logger = LogManager.getLogger(PlayersScoresRepository.class);
-    private final String gameIdScoreIndexName;
-
-    private ObjectMapper mapper = new ObjectMapper();
 
     private DynamoDB dynamoDb;
     private String tableName;
@@ -30,7 +28,6 @@ public class PlayersScoresRepository {
     public PlayersScoresRepository(){
         dynamoDb=DbManager.getInstance().getDynamoDb();
         tableName =DbManager.getInstance().getPlayersScoreTableName();
-        gameIdScoreIndexName = DbManager.getInstance().getGameIdScoreIndexName();
     }
 
 
@@ -39,21 +36,21 @@ public class PlayersScoresRepository {
     }
 
 
-    public void put(int playerId, int gameId, String playerName, int score){
+    public void put(HitTrial hitTrial, int score){
         //put a new record with score 0 in case it doesn't exist
         getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("playerId",playerId)
+                .withPrimaryKey("playerId",hitTrial.getPlayerId())
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(if_not_exists("score", 0)))
-                                .addUpdate(N("gameId").set(gameId))
-                                .addUpdate(S("playerName").set(playerName))
+                                .addUpdate(N("gameId").set(hitTrial.getGameId()))
+                                .addUpdate(S("playerName").set(hitTrial.getPlayerName()))
                                 .buildForUpdate())
         );
 
         //Add the new score
         getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("playerId",playerId)
+                .withPrimaryKey("playerId",hitTrial.getPlayerId())
                 .withExpressionSpec(
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(N("score").plus(score))).buildForUpdate())
@@ -63,26 +60,5 @@ public class PlayersScoresRepository {
     }
 
 
-    public List<String> getPlayersScoresByGameId(int gameId)  {
-        List<String> playersScores = getPlayerScoresItemsStream(gameId)
-                .map(i ->
-                        mapper.createObjectNode().put("playerId", i.getInt("playerId")).put("score", i.getInt("score"))
-                ).map(on -> on.toString()).collect(toList());
-        logger.debug("Players for gameId {} are {}",gameId,playersScores);
-        return playersScores;
-    }
-
-
-    private Stream<Item> getPlayerScoresItemsStream(int gameId) {
-        QuerySpec spec = new QuerySpec()
-                .withKeyConditionExpression("gameId = :gameId")
-                .withValueMap(new ValueMap()
-                        .withInt(":gameId", gameId))
-                .withScanIndexForward(false);
-
-        ItemCollection<QueryOutcome> items = getTable().getIndex(gameIdScoreIndexName).query(spec);
-        Iterable<Item> iterable = () -> items.iterator();
-        return StreamSupport.stream(iterable.spliterator(), false);
-    }
 
 }
