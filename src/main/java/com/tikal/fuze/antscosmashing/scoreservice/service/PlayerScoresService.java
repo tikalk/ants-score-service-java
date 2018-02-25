@@ -28,7 +28,8 @@ public class PlayerScoresService {
         playersScoresRepository.put(hitTrial,score);
         teamsScoresRepository.put(hitTrial,score);
 
-        publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
+        if(score!=0)
+            publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
     }
 
     private int calculateScore(HitTrial hitTrial) {
