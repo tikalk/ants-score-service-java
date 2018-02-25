@@ -19,8 +19,14 @@ public class PublishService {
     private Pusher pusher = createPusher();
     private ObjectMapper mapper= new ObjectMapper();
 
+    public void publishScores(HitTrial hitTrial, int playerScore,int teamScore){
+        publishTeamScore(hitTrial,playerScore);
+        publishTeamScore(hitTrial,teamScore);
 
-    public void publishTeamScore(HitTrial hitTrial, int score) {
+    }
+
+
+    private void publishTeamScore(HitTrial hitTrial, int score) {
         ObjectNode objectNode = mapper.createObjectNode()
                 .put("teamId", hitTrial.getTeamId())
                 .put("gameId", hitTrial.getGameId())
@@ -35,7 +41,7 @@ public class PublishService {
         }
     }
 
-    public void publishPlayerScore(HitTrial hitTrial, int score) {
+    private void publishPlayerScore(HitTrial hitTrial, int score) {
         ObjectNode objectNode = mapper.createObjectNode()
                 .put("playerId", hitTrial.getPlayerId())
                 .put("gameId", hitTrial.getGameId())

@@ -29,6 +29,7 @@ public class TeamsScoresRepository {
 
     private DynamoDB dynamoDb;
     private String tableName;
+    private String hashKeyName="teamId";
 
 
     public TeamsScoresRepository(){
@@ -91,4 +92,10 @@ public class TeamsScoresRepository {
         return null;
     }
 
+    public int getScore(int teamId) {
+        Item item = getTable().getItem(hashKeyName, teamId);
+        if(item==null)
+            return 0;
+        return item.getInt("score");
+    }
 }

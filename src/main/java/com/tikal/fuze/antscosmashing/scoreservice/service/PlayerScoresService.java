@@ -22,11 +22,13 @@ public class PlayerScoresService {
         logger.debug("Handling hitTrialStr: {}", hitTrial);
         int score = calculateScore(hitTrial);
 
+        int previousPlayerScore = playersScoresRepository.getScore(hitTrial.getPlayerId());
+        int previousTeamScore = teamsScoresRepository.getScore(hitTrial.getTeamId());
+
         playersScoresRepository.put(hitTrial,score);
         teamsScoresRepository.put(hitTrial,score);
 
-        publishService.publishPlayerScore(hitTrial,score);
-        publishService.publishTeamScore(hitTrial,score);
+        publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
     }
 
     private int calculateScore(HitTrial hitTrial) {

@@ -24,6 +24,7 @@ public class PlayersScoresRepository {
 
     private DynamoDB dynamoDb;
     private String tableName;
+    private String hashKeyName="playerId";
 
     public PlayersScoresRepository(){
         dynamoDb=DbManager.getInstance().getDynamoDb();
@@ -55,9 +56,15 @@ public class PlayersScoresRepository {
                         new ExpressionSpecBuilder()
                                 .addUpdate(N("score").set(N("score").plus(score))).buildForUpdate())
         );
-
-
     }
+
+    public int getScore(int playerId){
+        Item item = getTable().getItem(hashKeyName, playerId);
+        if(item==null)
+            return 0;
+        return item.getInt("score");
+    }
+
 
 
 
