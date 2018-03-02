@@ -21,7 +21,7 @@ public class PublishService {
 
     public void publishScores(HitTrial hitTrial, int playerScore,int teamScore){
         publishTeamScore(hitTrial,playerScore);
-        publishTeamScore(hitTrial,teamScore);
+        publishPlayerScore(hitTrial,teamScore);
 
     }
 
@@ -33,6 +33,8 @@ public class PublishService {
                 .put("teamName", hitTrial.getTeamName())
                 .put("antSpeciesId", hitTrial.getAntSpeciesId())
                 .put("antSpeciesName", hitTrial.getAntSpeciesName())
+                .put("date", hitTrial.getDate())
+                .put("time", hitTrial.getTime())
                 .put("score", score);
         try {
             pusher.trigger("scores", "teamScore", singletonMap("message", objectNode.toString()));
