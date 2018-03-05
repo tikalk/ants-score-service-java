@@ -75,22 +75,6 @@ public class TeamsScoresRepository {
 
 
 
-    public Integer getLatestGame(){
-        LocalDateTime now = LocalDateTime.now();
-        int date = Integer.valueOf(BASIC_ISO_DATE.format(now));
-
-        QuerySpec spec = new QuerySpec()
-                .withKeyConditionExpression("updateDate = :updateDate")
-                .withValueMap(new ValueMap()
-                        .withInt(":updateDate", date))
-                .withScanIndexForward(false)
-                .withMaxResultSize(1);
-        ItemCollection<QueryOutcome> items = getTable().getIndex("date_time_idx").query(spec);
-        IteratorSupport<Item, QueryOutcome> iterator = items.iterator();
-        if (iterator.hasNext())
-            return iterator.next().getInt("gameId");
-        return null;
-    }
 
     public int getScore(int teamId) {
         Item item = getTable().getItem(hashKeyName, teamId);

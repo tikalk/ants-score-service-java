@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.KinesisHitTrialEventsHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.PostHitTrialHandler;
-import com.tikal.fuze.antscosmashing.scoreservice.handler.response.ApiGatewayResponse;
-import com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetLatestGameHandler;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -61,11 +59,6 @@ public class PlayersScoresTests {
     }
 
 
-    @Test
-    public void testGetLatestGame() throws IOException {
-        ApiGatewayResponse apiGatewayResponse = new GetLatestGameHandler().handleRequest(null, null);
-        logger.debug(apiGatewayResponse.getBody());
-    }
 
 
 
