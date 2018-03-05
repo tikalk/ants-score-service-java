@@ -37,14 +37,6 @@ functions:
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
 
-  getLatestGame:
-      handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetLatestGameHandler
-      events:
-        - http:
-            path: 'games/latest'
-            method: get
-            cors: true
-
 
 plugins:
   - serverless-domain-manager
@@ -57,23 +49,4 @@ custom:
     createRoute53Record: true
     endpointType: 'regional'
 
-
-
-
-
-
-
-#  getPlayersScoresJava:
-#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetPlayersScoresHandler
-#    events:
-#      - http:
-#          path: scores/games/{gameId}/players
-#          method: get
-#
-#  getTeamsScoresJava:
-#    handler: com.tikal.fuze.antscosmashing.scoreservice.handler.scores.GetTeamsScoresHandler
-#    events:
-#      - http:
-#          path: scores/games/{gameId}/teams
-#          method: get
 
