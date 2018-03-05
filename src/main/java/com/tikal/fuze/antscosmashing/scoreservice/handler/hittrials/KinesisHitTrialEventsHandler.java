@@ -30,7 +30,6 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     @Override
     public Void handleRequest(KinesisEvent event, Context context) {
         try {
-//            event.getRecords().stream().map(rec -> new String(rec.getKinesis().getData().array())).forEach(playerScoresService::savePlayerScore);
             event.getRecords().stream().forEach(this::handleKinesisEventRecord);
             return null;
         } catch (Exception e) {
