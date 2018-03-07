@@ -37,7 +37,7 @@ public class PublishService {
                 .put("time", hitTrial.getTime())
                 .put("score", score);
         try {
-            pusher.trigger("scores", "teamScore", singletonMap("message", objectNode.toString()));
+            pusher.trigger("scores", "teamScore", hitTrial);
         }catch (Exception e){
             logger.error(e);
         }
@@ -50,7 +50,7 @@ public class PublishService {
                 .put("playerName", hitTrial.getPlayerName())
                 .put("score", score);
         try{
-            pusher.trigger("scores", "playerScore", singletonMap("message", objectNode.toString()));
+            pusher.trigger("scores", "playerScore", hitTrial);
         }catch (Exception e){
             logger.error(e);
         }
