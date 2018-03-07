@@ -38,6 +38,12 @@ public class HitTrial {
     @JsonProperty
     private int userId;
 
+    @JsonProperty
+    private int playerScore;
+
+    @JsonProperty
+    private int teamScore;
+
     public String getType() {
         return type;
     }
@@ -84,6 +90,22 @@ public class HitTrial {
 
     public int getUserId() {
         return userId;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public int getTeamScore() {
+        return teamScore;
+    }
+
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
+
+    public void setTeamScore(int teamScore) {
+        this.teamScore = teamScore;
     }
 
     public static HitTrial createHitTrial(String json){

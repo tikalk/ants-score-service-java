@@ -17,44 +17,18 @@ import static java.util.Collections.singletonMap;
 public class PublishService {
     private static final Logger logger = LogManager.getLogger(PublishService.class);
     private Pusher pusher = createPusher();
-    private ObjectMapper mapper= new ObjectMapper();
 
     public void publishScores(HitTrial hitTrial, int playerScore,int teamScore){
-        publishTeamScore(hitTrial,playerScore);
-        publishPlayerScore(hitTrial,teamScore);
-
-    }
-
-
-    private void publishTeamScore(HitTrial hitTrial, int score) {
-        ObjectNode objectNode = mapper.createObjectNode()
-                .put("teamId", hitTrial.getTeamId())
-                .put("gameId", hitTrial.getGameId())
-                .put("teamName", hitTrial.getTeamName())
-                .put("antSpeciesId", hitTrial.getAntSpeciesId())
-                .put("antSpeciesName", hitTrial.getAntSpeciesName())
-                .put("date", hitTrial.getDate())
-                .put("time", hitTrial.getTime())
-                .put("score", score);
         try {
-            pusher.trigger("scores", "teamScore", hitTrial);
+            hitTrial.setPlayerScore(playerScore);
+            hitTrial.setTeamScore(teamScore);
+            pusher.trigger("scores", "score", hitTrial);
         }catch (Exception e){
             logger.error(e);
         }
+
     }
 
-    private void publishPlayerScore(HitTrial hitTrial, int score) {
-        ObjectNode objectNode = mapper.createObjectNode()
-                .put("playerId", hitTrial.getPlayerId())
-                .put("gameId", hitTrial.getGameId())
-                .put("playerName", hitTrial.getPlayerName())
-                .put("score", score);
-        try{
-            pusher.trigger("scores", "playerScore", hitTrial);
-        }catch (Exception e){
-            logger.error(e);
-        }
-    }
 
     private Pusher createPusher() {
         try {
