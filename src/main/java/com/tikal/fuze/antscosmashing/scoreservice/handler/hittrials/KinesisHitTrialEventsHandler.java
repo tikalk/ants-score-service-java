@@ -3,6 +3,7 @@ package com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.KinesisEvent;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tikal.fuze.antscosmashing.scoreservice.service.PlayerScoresService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,8 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     private static final Logger logger = LogManager.getLogger(KinesisHitTrialEventsHandler.class);
 
     private PlayerScoresService playerScoresService;
+
+    private ObjectMapper om = new ObjectMapper();
 
 
 
@@ -30,6 +33,7 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     @Override
     public Void handleRequest(KinesisEvent event, Context context) {
         try {
+            logger.debug("Got the following event:",om.writeValueAsString(event));
             event.getRecords().stream().forEach(this::handleKinesisEventRecord);
             return null;
         } catch (Exception e) {

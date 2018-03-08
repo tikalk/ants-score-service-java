@@ -116,4 +116,12 @@ public class HitTrial {
         }
     }
 
+    @Override
+    public String toString() {
+        try {
+            return om.writeValueAsString(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
