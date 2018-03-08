@@ -18,7 +18,7 @@ public class PlayerScoresService {
     private SmashedAntsRepository smashedAntsRepository = new SmashedAntsRepository();
     private PublishService publishService = new PublishService();
 
-    public void savePlayerScore(HitTrial hitTrial) {
+    public HitTrial savePlayerScore(HitTrial hitTrial) {
         logger.debug("Handling hitTrialStr: {}", hitTrial);
         int score = calculateScore(hitTrial);
 
@@ -30,6 +30,8 @@ public class PlayerScoresService {
 
         if(score!=0)
             publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
+
+        return hitTrial;
     }
 
     private int calculateScore(HitTrial hitTrial) {

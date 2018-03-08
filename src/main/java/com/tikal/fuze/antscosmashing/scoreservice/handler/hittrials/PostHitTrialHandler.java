@@ -31,8 +31,10 @@ public class PostHitTrialHandler implements RequestHandler<Map<String, Object>, 
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 		logger.debug("received: " + input);
 		String body = (String) input.get("body");
-		playerScoresService.savePlayerScore(createHitTrial(body));
+		HitTrial hitTrial = createHitTrial(body);
+		playerScoresService.savePlayerScore(hitTrial);
 		return ApiGatewayResponse.builder()
+				.setObjectBody(hitTrial)
 				.setStatusCode(200)
 				.build();
 	}
