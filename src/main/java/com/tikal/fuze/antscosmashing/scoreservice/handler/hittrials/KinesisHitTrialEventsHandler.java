@@ -33,7 +33,7 @@ public class KinesisHitTrialEventsHandler  implements RequestHandler<KinesisEven
     @Override
     public Void handleRequest(KinesisEvent event, Context context) {
         try {
-            logger.debug("Got the following event:",om.writeValueAsString(event));
+            logger.debug("Got the following event:{}",om.writeValueAsString(event));
             event.getRecords().stream().forEach(this::handleKinesisEventRecord);
             return null;
         } catch (Exception e) {
