@@ -13,6 +13,7 @@ node {
       	stage ('Deploy') {
       	    sh "npm init -y"
             sh "npm install serverless-domain-manager --save-dev"
+            sh "npm install serverless-plugin-tracing --save-dev"
             sh "serverless deploy"
       	}
     } catch (err) {
