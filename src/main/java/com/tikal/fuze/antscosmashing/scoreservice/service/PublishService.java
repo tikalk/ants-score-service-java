@@ -20,9 +20,11 @@ public class PublishService {
 
     public void publishScores(HitTrial hitTrial, int playerScore,int teamScore){
         try {
+            logger.debug("Start publishScores...");
             hitTrial.setPlayerScore(playerScore);
             hitTrial.setTeamScore(teamScore);
             pusher.trigger("scores", "score", hitTrial);
+            logger.debug("Finished publishScores.");
         }catch (Exception e){
             logger.error(e);
         }

@@ -22,11 +22,15 @@ public class PlayerScoresService {
         logger.debug("Handling hitTrialStr: {}", hitTrial);
         int score = calculateScore(hitTrial);
 
+        logger.debug("Start getScores...");
         int previousPlayerScore = playersScoresRepository.getScore(hitTrial.getPlayerId());
         int previousTeamScore = teamsScoresRepository.getScore(hitTrial.getTeamId());
+        logger.debug("Finished getScores.");
 
+        logger.debug("Start putScores...");
         playersScoresRepository.put(hitTrial,score);
         teamsScoresRepository.put(hitTrial,score);
+        logger.debug("Finished putScores.");
 
         if(score!=0)
             publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
@@ -35,6 +39,7 @@ public class PlayerScoresService {
     }
 
     private int calculateScore(HitTrial hitTrial) {
+        logger.debug("Start calc scores...");
         int score=0;
         if (hitTrial.getType().equals("miss"))
             score = valueOf(getenv("MISS"));
@@ -42,6 +47,7 @@ public class PlayerScoresService {
             score = calculateScore(hitTrial,  false);
         else if (hitTrial.getType().equals("selfHit"))
             score = calculateScore(hitTrial,  true);
+        logger.debug("Finished calc scores.");
         return score;
     }
 
