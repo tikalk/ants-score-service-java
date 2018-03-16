@@ -1,9 +1,14 @@
 package com.tikal.fuze.antscosmashing.scoreservice.repositories;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.handlers.TracingHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -74,8 +79,12 @@ public class DbManager {
 
     private void initDynamoDbClient() {
         logger.debug("Connecting to the DB...");
-        AmazonDynamoDBClient client = new AmazonDynamoDBClient();
-        client.setRegion(Region.getRegion(Regions.fromName(db_region)));
+//        AmazonDynamoDBClient client = new AmazonDynamoDBClient();
+//        client.setRegion(Region.getRegion(Regions.fromName(db_region)));
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+                .withRegion(Regions.fromName(System.getenv("AWS_REGION")))
+                .withRequestHandlers(new TracingHandler(AWSXRay.getGlobalRecorder()))
+                .build();
         dynamoDb = new DynamoDB(client);
     }
 
