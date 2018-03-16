@@ -16,7 +16,7 @@ import static java.util.Collections.singletonMap;
 
 public class PublishService {
     private static final Logger logger = LogManager.getLogger(PublishService.class);
-    private Pusher pusher = createPusher();
+    private static Pusher pusher = createPusher();
 
     public void publishScores(HitTrial hitTrial, int playerScore,int teamScore){
         try {
@@ -32,7 +32,7 @@ public class PublishService {
     }
 
 
-    private Pusher createPusher() {
+    private static Pusher createPusher() {
         try {
             Properties prop = new Properties();
             InputStream inputStream = PublishService.class.getClassLoader().getResourceAsStream("config.properties");

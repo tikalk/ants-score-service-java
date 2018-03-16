@@ -22,20 +22,22 @@ public class PlayerScoresService {
         logger.debug("Handling hitTrialStr: {}", hitTrial);
         int score = calculateScore(hitTrial);
 
-//        logger.debug("Start getScores...");
-//        int previousPlayerScore = playersScoresRepository.getScore(hitTrial.getPlayerId());
-//        int previousTeamScore = teamsScoresRepository.getScore(hitTrial.getTeamId());
-//        logger.debug("Finished getScores.");
-
         logger.debug("Start putScores...");
         playersScoresRepository.put(hitTrial,score);
         teamsScoresRepository.put(hitTrial,score);
         logger.debug("Finished putScores.");
 
-//        if(score!=0)
-//            publishService.publishScores(hitTrial,previousPlayerScore+score,previousTeamScore+score);
-
+        if(score!=0 && getenv("PUSHER_PUBLISH").equals("true"))
+            publishScores(hitTrial,score);
         return hitTrial;
+    }
+
+    private void publishScores(HitTrial hitTrial, int score) {
+        logger.debug("Start getScores...");
+        int previousPlayerScore = playersScoresRepository.getScore(hitTrial.getPlayerId());
+        int previousTeamScore = teamsScoresRepository.getScore(hitTrial.getTeamId());
+        logger.debug("Finished getScores.");
+        publishService.publishScores(hitTrial,previousPlayerScore,previousTeamScore);
     }
 
     private int calculateScore(HitTrial hitTrial) {

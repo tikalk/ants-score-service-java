@@ -30,6 +30,7 @@ functions:
       FIRST_HIT: 3
       SELF_HIT: -2
       FIRST_SELF_HIT: -3
+      PUSHER_PUBLISH: false
 
   processHitTrialKinesisEvent:
     handler: com.tikal.fuze.antscosmashing.scoreservice.handler.hittrials.KinesisHitTrialEventsHandler
