@@ -38,16 +38,19 @@ public class PlayersScoresRepository {
 
 
     public void put(HitTrial hitTrial, int score){
-        //put a new record with score 0 in case it doesn't exist
-        getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("playerId",hitTrial.getPlayerId())
-                .withExpressionSpec(
-                        new ExpressionSpecBuilder()
-                                .addUpdate(N("score").set(if_not_exists("score", 0)))
-                                .addUpdate(N("gameId").set(hitTrial.getGameId()))
-                                .addUpdate(S("playerName").set(hitTrial.getPlayerName()))
-                                .buildForUpdate())
-        );
+        Item item = getTable().getItem(hashKeyName, hitTrial.getPlayerId());
+        if(item==null) {
+            //put a new record with score 0 in case it doesn't exist
+            getTable().updateItem(new UpdateItemSpec()
+                    .withPrimaryKey("playerId", hitTrial.getPlayerId())
+                    .withExpressionSpec(
+                            new ExpressionSpecBuilder()
+                                    .addUpdate(N("score").set(if_not_exists("score", 0)))
+                                    .addUpdate(N("gameId").set(hitTrial.getGameId()))
+                                    .addUpdate(S("playerName").set(hitTrial.getPlayerName()))
+                                    .buildForUpdate())
+            );
+        }
 
         //Add the new score
         getTable().updateItem(new UpdateItemSpec()

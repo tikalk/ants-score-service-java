@@ -43,21 +43,24 @@ public class TeamsScoresRepository {
     }
 
 
-    public void put(HitTrial hitTrial, int score){
-        //put a new record with score 0 in case it doesn't exist
-        getTable().updateItem(new UpdateItemSpec()
-                .withPrimaryKey("teamId",hitTrial.getTeamId())
-                .withExpressionSpec(
-                        new ExpressionSpecBuilder()
-                                .addUpdate(N("score").set(if_not_exists("score", 0)))
-                                .addUpdate(N("gameId").set(hitTrial.getGameId()))
-                                .addUpdate(S("teamName").set(hitTrial.getTeamName()))
-                                .addUpdate(N("antSpeciesId").set(hitTrial.getAntSpeciesId()))
-                                .addUpdate(S("antSpeciesName").set(hitTrial.getAntSpeciesName()))
-                                .addUpdate(N("updateDate").set(hitTrial.getDate()))
-                                .addUpdate(N("updateTime").set(hitTrial.getTime()))
-                                .buildForUpdate())
-        );
+    public void put(HitTrial hitTrial, int score) {
+        Item item = getTable().getItem(hashKeyName, hitTrial.getTeamId());
+        if (item == null){
+            //put a new record with score 0 in case it doesn't exist
+            getTable().updateItem(new UpdateItemSpec()
+                    .withPrimaryKey("teamId", hitTrial.getTeamId())
+                    .withExpressionSpec(
+                            new ExpressionSpecBuilder()
+                                    .addUpdate(N("score").set(if_not_exists("score", 0)))
+                                    .addUpdate(N("gameId").set(hitTrial.getGameId()))
+                                    .addUpdate(S("teamName").set(hitTrial.getTeamName()))
+                                    .addUpdate(N("antSpeciesId").set(hitTrial.getAntSpeciesId()))
+                                    .addUpdate(S("antSpeciesName").set(hitTrial.getAntSpeciesName()))
+                                    .addUpdate(N("updateDate").set(hitTrial.getDate()))
+                                    .addUpdate(N("updateTime").set(hitTrial.getTime()))
+                                    .buildForUpdate())
+            );
+        }
 
         //Add the new score
         getTable().updateItem(new UpdateItemSpec()
