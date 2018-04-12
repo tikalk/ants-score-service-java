@@ -27,7 +27,7 @@ public class PlayerScoresService {
         teamsScoresRepository.put(hitTrial,score);
         logger.debug("Finished putScores.");
 
-        if(score!=0 && getenv("PUSHER_PUBLISH").equals("true"))
+        if(score!=0 && "true".equals(getenv("PUSHER_PUBLISH")))
             publishScores(hitTrial,score);
         return hitTrial;
     }
