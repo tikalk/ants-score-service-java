@@ -22,7 +22,7 @@ public class PlayerScoresService {
         logger.debug("Handling hitTrialStr: {}", hitTrial);
         int score = calculateScore(hitTrial);
 
-        logger.debug("Start putScores:{} playerId:{}, teamId:{}",score,hitTrial.getTeamId(),hitTrial.getTeamId());
+        logger.debug("Start putScores:{} playerId:{}, teamId:{}",score,hitTrial.getPlayerId(),hitTrial.getTeamId());
         playersScoresRepository.put(hitTrial,score);
         teamsScoresRepository.put(hitTrial,score);
         logger.debug("Finished putScores.");
